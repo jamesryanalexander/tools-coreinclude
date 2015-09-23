@@ -163,7 +163,7 @@ class sugar {
 	/**
 	 * Get cURL object, create if doesn't exist.
 	 *
-	 * Should alway sbe used when cURL is going to be used so that we can use one cURL object and not open up too many threads.
+	 * Should always be used when cURL is going to be used so that we can use one cURL object and not open up too many threads.
 	 * If $ch already exists function will immediatly return it, if not it will create one and then return it.
 	 *
 	 * @return cURL resource
