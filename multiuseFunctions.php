@@ -14,11 +14,6 @@ Stored here mostly to keep main files cleaner.
 
 ---------------------------------------------   */
 
-$config = parse_ini_file( dirname( __FILE__ ) . '/../lcaToolsConfig.ini' );
-$dbaddress = $config['database_address'];
-$dbuser = $config['database_user'];
-$dbpw = $config['database_password'];
-$db = $config['database'];
 libxml_use_internal_errors( true );
 
 function setupdataurl( $inputfile ) {
@@ -60,10 +55,12 @@ function curlAPIpost( $url, $data, $headers='' ) {
 
 
 function lcalog( $user, $type, $title, $test ) {
-
-	global $dbaddress, $dbuser, $dbpw, $db;
-
-	$mysql = new mysqli( $dbaddress, $dbuser, $dbpw, $db );
+	$mysql = new mysqli(
+		getenv( 'DATABASE_ADDRESS' ),
+		getenv( 'DATABASE_USER' ),
+		getenv( 'DATABASE_PASSWORD' ),
+		getenv( 'DATABASE' )
+	);
 	$mysql->set_charset( "utf8" );
 
 	$template = 'INSERT INTO centrallog (user,timestamp,type,title,test) VALUES (?,?,?,?,?)';
@@ -236,9 +233,12 @@ function validateJWT( $identity, $consumerKey, $nonce, $server ) {
 }
 
 function getUserData( $user ) {
-	global $dbaddress, $dbuser, $dbpw, $db;
-
-	$mysql = new mysqli( $dbaddress, $dbuser, $dbpw, $db );
+	$mysql = new mysqli(
+		getenv( 'DATABASE_ADDRESS' ),
+		getenv( 'DATABASE_USER' ),
+		getenv( 'DATABASE_PASSWORD' ),
+		getenv( 'DATABASE' )
+	);
 	$mysql->set_charset( "utf8" );
 
 	if ( $mysql->connect_error ) {
@@ -260,7 +260,7 @@ function getUserData( $user ) {
 }
 
 function makehttps( $url ) {
-	$url = preg_replace("/^http:/", "https:", $url, 1);	
+	$url = preg_replace("/^http:/", "https:", $url, 1);
 	return $url;
 }
 
@@ -270,8 +270,7 @@ function get_string_between($string, $start, $end){
 	$string = " ".$string;
 	$ini = strpos($string,$start);
 	if ($ini == 0) return "";
-	$ini += strlen($start);   
+	$ini += strlen($start);
 	$len = strpos($string,$end,$ini) - $ini;
 	return substr($string,$ini,$len);
 }
-
