@@ -1,0 +1,21 @@
+{
+    "name": "jamesryanalexander/tools-coreinclude",
+    "description": "Shared files that could be useful to both the private LCATools system and a, yet to be created, public tools repository.",
+    "type": "library",
+    "license": "MIT",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "autoload": {
+      "classmap": [
+        "MWOAuthSignatureMethod.php",
+        "OAuth.php",
+        "sugar.class.php"
+      ],
+      "files": [
+        "multiuseFunctions.php"
+      ]
+    },
+    "require-dev": {
+        "mediawiki/mediawiki-codesniffer": "^0.8.0"
+    }
+}
